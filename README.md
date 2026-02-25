@@ -11,6 +11,8 @@ erDiagram
     LEAGUE ||--o{ SEASON : "contains"
     SEASON ||--o{ MATCH : "has"
     VENUE ||--o{ MATCH : "hosts"
+    TEAM ||--o{ MATCH : "home_team"
+    TEAM ||--o{ MATCH : "away_team"
     MATCH ||--o{ TEAM_STATISTICS : "records"
     TEAM ||--o{ TEAM_STATISTICS : "participates"
     MATCH ||--o{ PLAYER_STATISTICS : "records"

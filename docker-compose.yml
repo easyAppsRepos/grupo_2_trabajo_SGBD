@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: grupo2_sgbd_db
+    restart: always
+    environment:
+      POSTGRES_USER: user_master
+      POSTGRES_PASSWORD: password_master
+      POSTGRES_DB: soccer_stats
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  loader:
+    build: ./scripts
+    container_name: grupo2_sgbd_loader
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_USER: user_master
+      POSTGRES_PASSWORD: password_master
+      POSTGRES_DB: soccer_stats
+      POSTGRES_HOST: postgres
+    volumes:
+      - ./dataset:/data
+
+volumes:
+  postgres_data:
+

@@ -3,10 +3,8 @@
 SELECT
     statistic_id,
     slug          AS clave_interna,
-    display_name  AS nombre_legible,
-    subject_type  AS aplica_a
+    display_name  AS nombre_legible
 FROM statistics
-ORDER BY subject_type, slug;
 
 -- Top 10 equipos con más goles (global)
 -- Solo cambiamos el slug de la métrica para obtener el ranking que queramos
@@ -50,7 +48,7 @@ FROM player_statistics ps
 JOIN statistics        st ON st.statistic_id = ps.statistic_id
 JOIN player            p  ON p.player_id     = ps.player_id
 JOIN team              t  ON t.team_id       = ps.team_id
-WHERE st.slug = 'goals_scored'
+WHERE st.slug = 'score'
 GROUP BY p.name, t.name
 ORDER BY goles DESC
 LIMIT 10;
@@ -123,7 +121,7 @@ WITH media_global AS (
         AVG(ts.value)                    AS media_goles
     FROM team_statistics ts
     JOIN statistics      st ON st.statistic_id = ts.statistic_id
-    WHERE st.slug = 'goals_scored'
+    WHERE st.slug = 'score'
 ),
 goles_por_equipo AS (
     SELECT
@@ -132,7 +130,7 @@ goles_por_equipo AS (
     FROM team_statistics ts
     JOIN statistics      st ON st.statistic_id = ts.statistic_id
     JOIN team            t  ON t.team_id      = ts.team_id
-    WHERE st.slug = 'goals_scored'
+    WHERE st.slug = 'score'
     GROUP BY t.name
 )
 SELECT
